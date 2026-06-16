@@ -1,0 +1,19 @@
+{
+  "@@locale": "tl",
+  "app_title": "AirSnap",
+  "home_welcome": "Maligayang pagdating sa AirSnap",
+  "status_waiting": "Naghihintay ng Bluetooth na signal…",
+  "status_detected": "Natukoy ang signal!",
+  "btn_calibrate": "I-calibrate ang device",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Camera",
+  "lbl_language": "Wika",
+  "lbl_settings": "Mga Setting",
+  "btn_scan": "Mag-scan ng mga device",
+  "btn_connect": "Ikonekta",
+  "btn_disconnect": "Idiskonekta",
+  "msg_no_devices": "Walang device na natagpuan sa malapit",
+  "msg_connected": "Nakakonekta sa {deviceName}",
+  "err_bluetooth_off": "Pakibukas ang Bluetooth para magpatuloy",
+  "err_permission_denied": "Tinanggihan ang pahintulot sa Bluetooth"
+}

@@ -1,0 +1,19 @@
+{
+  "@@locale": "th",
+  "app_title": "AirSnap",
+  "home_welcome": "ยินดีต้อนรับสู่ AirSnap",
+  "status_waiting": "กำลังรอสัญญาณ Bluetooth…",
+  "status_detected": "ตรวจพบสัญญาณแล้ว!",
+  "btn_calibrate": "ปรับเทียบอุปกรณ์",
+  "section_bluetooth": "บลูทูธ",
+  "section_camera": "กล้อง",
+  "lbl_language": "ภาษา",
+  "lbl_settings": "การตั้งค่า",
+  "btn_scan": "ค้นหาอุปกรณ์",
+  "btn_connect": "เชื่อมต่อ",
+  "btn_disconnect": "ยกเลิกการเชื่อมต่อ",
+  "msg_no_devices": "ไม่พบอุปกรณ์ในบริเวณใกล้เคียง",
+  "msg_connected": "เชื่อมต่อกับ {deviceName} แล้ว",
+  "err_bluetooth_off": "กรุณาเปิดใช้บลูทูธเพื่อดำเนินการต่อ",
+  "err_permission_denied": "การอนุญาต Bluetooth ถูกปฏิเสธ"
+}

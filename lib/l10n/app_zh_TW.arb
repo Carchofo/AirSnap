@@ -1,0 +1,19 @@
+{
+  "@@locale": "zh_TW",
+  "app_title": "AirSnap",
+  "home_welcome": "歡迎使用 AirSnap",
+  "status_waiting": "等待藍牙訊號…",
+  "status_detected": "偵測到訊號！",
+  "btn_calibrate": "校準裝置",
+  "section_bluetooth": "藍牙",
+  "section_camera": "相機",
+  "lbl_language": "語言",
+  "lbl_settings": "設定",
+  "btn_scan": "掃描裝置",
+  "btn_connect": "連線",
+  "btn_disconnect": "中斷連線",
+  "msg_no_devices": "附近未找到裝置",
+  "msg_connected": "已連線至 {deviceName}",
+  "err_bluetooth_off": "請啟用藍牙以繼續",
+  "err_permission_denied": "藍牙權限被拒絕"
+}

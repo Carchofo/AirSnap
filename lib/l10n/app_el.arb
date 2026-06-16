@@ -1,0 +1,19 @@
+{
+  "@@locale": "el",
+  "app_title": "AirSnap",
+  "home_welcome": "Καλώς ήρθατε στο AirSnap",
+  "status_waiting": "Αναμονή για σήμα Bluetooth…",
+  "status_detected": "Σήμα εντοπίστηκε!",
+  "btn_calibrate": "Βαθμονόμηση συσκευής",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Κάμερα",
+  "lbl_language": "Γλώσσα",
+  "lbl_settings": "Ρυθμίσεις",
+  "btn_scan": "Αναζήτηση συσκευών",
+  "btn_connect": "Σύνδεση",
+  "btn_disconnect": "Αποσύνδεση",
+  "msg_no_devices": "Δεν βρέθηκαν συσκευές στην περιοχή",
+  "msg_connected": "Συνδέθηκε με {deviceName}",
+  "err_bluetooth_off": "Ενεργοποιήστε το Bluetooth για να συνεχίσετε",
+  "err_permission_denied": "Η άδεια Bluetooth απορρίφθηκε"
+}

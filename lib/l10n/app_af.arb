@@ -1,0 +1,19 @@
+{
+  "@@locale": "af",
+  "app_title": "AirSnap",
+  "home_welcome": "Welkom by AirSnap",
+  "status_waiting": "Wag vir Bluetooth-sein…",
+  "status_detected": "Sein opgespoor!",
+  "btn_calibrate": "Kalibreer toestel",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Kamera",
+  "lbl_language": "Taal",
+  "lbl_settings": "Instellings",
+  "btn_scan": "Soek vir toestelle",
+  "btn_connect": "Verbind",
+  "btn_disconnect": "Ontkoppel",
+  "msg_no_devices": "Geen toestelle gevind in die omgewing nie",
+  "msg_connected": "Verbind met {deviceName}",
+  "err_bluetooth_off": "Aktiveer Bluetooth om voort te gaan",
+  "err_permission_denied": "Bluetooth-toestemming geweier"
+}

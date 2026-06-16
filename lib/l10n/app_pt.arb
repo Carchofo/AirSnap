@@ -1,0 +1,19 @@
+{
+  "@@locale": "pt",
+  "app_title": "AirSnap",
+  "home_welcome": "Bem-vindo ao AirSnap",
+  "status_waiting": "Aguardando sinal de Bluetooth…",
+  "status_detected": "Sinal detectado!",
+  "btn_calibrate": "Calibrar dispositivo",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Câmera",
+  "lbl_language": "Idioma",
+  "lbl_settings": "Configurações",
+  "btn_scan": "Procurar dispositivos",
+  "btn_connect": "Conectar",
+  "btn_disconnect": "Desconectar",
+  "msg_no_devices": "Nenhum dispositivo encontrado nas proximidades",
+  "msg_connected": "Conectado a {deviceName}",
+  "err_bluetooth_off": "Ative o Bluetooth para continuar",
+  "err_permission_denied": "Permissão de Bluetooth negada"
+}

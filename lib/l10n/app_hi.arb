@@ -1,0 +1,19 @@
+{
+  "@@locale": "hi",
+  "app_title": "AirSnap",
+  "home_welcome": "AirSnap में आपका स्वागत है",
+  "status_waiting": "Bluetooth सिग्नल का इंतज़ार है…",
+  "status_detected": "सिग्नल मिल गया!",
+  "btn_calibrate": "डिवाइस को कैलिब्रेट करें",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "कैमरा",
+  "lbl_language": "भाषा",
+  "lbl_settings": "सेटिंग्स",
+  "btn_scan": "डिवाइस खोजें",
+  "btn_connect": "कनेक्ट करें",
+  "btn_disconnect": "डिस्कनेक्ट करें",
+  "msg_no_devices": "आस-पास कोई डिवाइस नहीं मिली",
+  "msg_connected": "{deviceName} से कनेक्ट हो गया",
+  "err_bluetooth_off": "जारी रखने के लिए Bluetooth चालू करें",
+  "err_permission_denied": "Bluetooth की अनुमति अस्वीकार की गई"
+}

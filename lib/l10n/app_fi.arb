@@ -1,0 +1,19 @@
+{
+  "@@locale": "fi",
+  "app_title": "AirSnap",
+  "home_welcome": "Tervetuloa AirSnapiin",
+  "status_waiting": "Odotetaan Bluetooth-signaalia…",
+  "status_detected": "Signaali havaittu!",
+  "btn_calibrate": "Kalibroi laite",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Kamera",
+  "lbl_language": "Kieli",
+  "lbl_settings": "Asetukset",
+  "btn_scan": "Etsi laitteita",
+  "btn_connect": "Yhdistä",
+  "btn_disconnect": "Katkaise yhteys",
+  "msg_no_devices": "Läheltä ei löytynyt laitteita",
+  "msg_connected": "Yhdistetty laitteeseen {deviceName}",
+  "err_bluetooth_off": "Ota Bluetooth käyttöön jatkaaksesi",
+  "err_permission_denied": "Bluetooth-lupa evätty"
+}

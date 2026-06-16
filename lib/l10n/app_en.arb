@@ -1,0 +1,55 @@
+{
+  "@@locale": "en",
+  "app_title": "AirSnap",
+  "@app_title": { "description": "Application name shown in AppBar and splash screen" },
+
+  "home_welcome": "Welcome to AirSnap",
+  "@home_welcome": { "description": "Greeting shown on the home screen" },
+
+  "status_waiting": "Waiting for Bluetooth signal…",
+  "@status_waiting": { "description": "Status label while no signal has been detected" },
+
+  "status_detected": "Signal detected!",
+  "@status_detected": { "description": "Status label after a volume key press is captured" },
+
+  "btn_calibrate": "Calibrate device",
+  "@btn_calibrate": { "description": "Primary action button label" },
+
+  "section_bluetooth": "Bluetooth",
+  "@section_bluetooth": { "description": "Section header for Bluetooth controls" },
+
+  "section_camera": "Camera",
+  "@section_camera": { "description": "Section header for camera controls" },
+
+  "lbl_language": "Language",
+  "@lbl_language": { "description": "Label for language selector" },
+
+  "lbl_settings": "Settings",
+  "@lbl_settings": { "description": "Settings screen title" },
+
+  "btn_scan": "Scan for devices",
+  "@btn_scan": { "description": "Start BLE scan button" },
+
+  "btn_connect": "Connect",
+  "@btn_connect": { "description": "Connect to BLE device button" },
+
+  "btn_disconnect": "Disconnect",
+  "@btn_disconnect": { "description": "Disconnect from BLE device button" },
+
+  "msg_no_devices": "No devices found nearby",
+  "@msg_no_devices": { "description": "Empty state message when BLE scan returns nothing" },
+
+  "msg_connected": "Connected to {deviceName}",
+  "@msg_connected": {
+    "description": "Confirmation that a device was connected",
+    "placeholders": {
+      "deviceName": { "type": "String" }
+    }
+  },
+
+  "err_bluetooth_off": "Please enable Bluetooth to continue",
+  "@err_bluetooth_off": { "description": "Error when Bluetooth is disabled" },
+
+  "err_permission_denied": "Bluetooth permission denied",
+  "@err_permission_denied": { "description": "Error when BLE permission is not granted" }
+}

@@ -1,0 +1,19 @@
+{
+  "@@locale": "sw",
+  "app_title": "AirSnap",
+  "home_welcome": "Karibu kwenye AirSnap",
+  "status_waiting": "Inasubiri ishara ya Bluetooth…",
+  "status_detected": "Ishara imegunduliwa!",
+  "btn_calibrate": "Rekebisha kifaa",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Kamera",
+  "lbl_language": "Lugha",
+  "lbl_settings": "Mipangilio",
+  "btn_scan": "Tafuta vifaa",
+  "btn_connect": "Unganisha",
+  "btn_disconnect": "Tenganisha",
+  "msg_no_devices": "Hakuna vifaa vilivyopatikana karibu",
+  "msg_connected": "Imeunganishwa na {deviceName}",
+  "err_bluetooth_off": "Tafadhali washa Bluetooth kuendelea",
+  "err_permission_denied": "Ruhusa ya Bluetooth imekataliwa"
+}

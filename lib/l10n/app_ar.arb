@@ -1,0 +1,19 @@
+{
+  "@@locale": "ar",
+  "app_title": "AirSnap",
+  "home_welcome": "مرحبًا بك في AirSnap",
+  "status_waiting": "في انتظار إشارة البلوتوث…",
+  "status_detected": "تم اكتشاف الإشارة!",
+  "btn_calibrate": "معايرة الجهاز",
+  "section_bluetooth": "البلوتوث",
+  "section_camera": "الكاميرا",
+  "lbl_language": "اللغة",
+  "lbl_settings": "الإعدادات",
+  "btn_scan": "البحث عن أجهزة",
+  "btn_connect": "اتصال",
+  "btn_disconnect": "قطع الاتصال",
+  "msg_no_devices": "لم يتم العثور على أجهزة قريبة",
+  "msg_connected": "متصل بـ {deviceName}",
+  "err_bluetooth_off": "يرجى تفعيل البلوتوث للمتابعة",
+  "err_permission_denied": "تم رفض إذن البلوتوث"
+}

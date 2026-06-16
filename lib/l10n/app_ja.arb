@@ -1,0 +1,19 @@
+{
+  "@@locale": "ja",
+  "app_title": "AirSnap",
+  "home_welcome": "AirSnapへようこそ",
+  "status_waiting": "Bluetooth信号を待っています…",
+  "status_detected": "信号を検出しました！",
+  "btn_calibrate": "デバイスをキャリブレーション",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "カメラ",
+  "lbl_language": "言語",
+  "lbl_settings": "設定",
+  "btn_scan": "デバイスをスキャン",
+  "btn_connect": "接続",
+  "btn_disconnect": "切断",
+  "msg_no_devices": "近くにデバイスが見つかりません",
+  "msg_connected": "{deviceName}に接続しました",
+  "err_bluetooth_off": "続行するにはBluetoothを有効にしてください",
+  "err_permission_denied": "Bluetoothの許可が拒否されました"
+}

@@ -1,0 +1,19 @@
+{
+  "@@locale": "vi",
+  "app_title": "AirSnap",
+  "home_welcome": "Chào mừng đến với AirSnap",
+  "status_waiting": "Đang chờ tín hiệu Bluetooth…",
+  "status_detected": "Đã phát hiện tín hiệu!",
+  "btn_calibrate": "Hiệu chỉnh thiết bị",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Máy ảnh",
+  "lbl_language": "Ngôn ngữ",
+  "lbl_settings": "Cài đặt",
+  "btn_scan": "Quét thiết bị",
+  "btn_connect": "Kết nối",
+  "btn_disconnect": "Ngắt kết nối",
+  "msg_no_devices": "Không tìm thấy thiết bị nào gần đây",
+  "msg_connected": "Đã kết nối với {deviceName}",
+  "err_bluetooth_off": "Vui lòng bật Bluetooth để tiếp tục",
+  "err_permission_denied": "Quyền Bluetooth bị từ chối"
+}

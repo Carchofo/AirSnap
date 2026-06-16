@@ -1,0 +1,19 @@
+{
+  "@@locale": "ms",
+  "app_title": "AirSnap",
+  "home_welcome": "Selamat datang ke AirSnap",
+  "status_waiting": "Menunggu isyarat Bluetooth…",
+  "status_detected": "Isyarat dikesan!",
+  "btn_calibrate": "Kalibrasi peranti",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Kamera",
+  "lbl_language": "Bahasa",
+  "lbl_settings": "Tetapan",
+  "btn_scan": "Imbas peranti",
+  "btn_connect": "Sambung",
+  "btn_disconnect": "Putuskan sambungan",
+  "msg_no_devices": "Tiada peranti ditemui berhampiran",
+  "msg_connected": "Disambungkan ke {deviceName}",
+  "err_bluetooth_off": "Sila aktifkan Bluetooth untuk meneruskan",
+  "err_permission_denied": "Kebenaran Bluetooth ditolak"
+}

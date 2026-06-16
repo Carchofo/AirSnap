@@ -1,0 +1,19 @@
+{
+  "@@locale": "sv",
+  "app_title": "AirSnap",
+  "home_welcome": "Välkommen till AirSnap",
+  "status_waiting": "Väntar på Bluetooth-signal…",
+  "status_detected": "Signal upptäckt!",
+  "btn_calibrate": "Kalibrera enhet",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Kamera",
+  "lbl_language": "Språk",
+  "lbl_settings": "Inställningar",
+  "btn_scan": "Sök efter enheter",
+  "btn_connect": "Anslut",
+  "btn_disconnect": "Koppla från",
+  "msg_no_devices": "Inga enheter hittades i närheten",
+  "msg_connected": "Ansluten till {deviceName}",
+  "err_bluetooth_off": "Aktivera Bluetooth för att fortsätta",
+  "err_permission_denied": "Bluetooth-behörighet nekad"
+}

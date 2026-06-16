@@ -1,0 +1,19 @@
+{
+  "@@locale": "hu",
+  "app_title": "AirSnap",
+  "home_welcome": "Üdvözöljük az AirSnapben",
+  "status_waiting": "Bluetooth-jel várakozása…",
+  "status_detected": "Jel észlelve!",
+  "btn_calibrate": "Eszköz kalibrálása",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Kamera",
+  "lbl_language": "Nyelv",
+  "lbl_settings": "Beállítások",
+  "btn_scan": "Eszközök keresése",
+  "btn_connect": "Csatlakozás",
+  "btn_disconnect": "Lecsatlakozás",
+  "msg_no_devices": "Nem találhatók eszközök a közelben",
+  "msg_connected": "Csatlakozva ehhez: {deviceName}",
+  "err_bluetooth_off": "Kapcsolja be a Bluetooth-t a folytatáshoz",
+  "err_permission_denied": "Bluetooth-engedély megtagadva"
+}

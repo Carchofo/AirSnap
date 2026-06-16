@@ -1,0 +1,19 @@
+{
+  "@@locale": "cs",
+  "app_title": "AirSnap",
+  "home_welcome": "Vítejte v AirSnap",
+  "status_waiting": "Čekání na Bluetooth signál…",
+  "status_detected": "Signál zjištěn!",
+  "btn_calibrate": "Kalibrovat zařízení",
+  "section_bluetooth": "Bluetooth",
+  "section_camera": "Fotoaparát",
+  "lbl_language": "Jazyk",
+  "lbl_settings": "Nastavení",
+  "btn_scan": "Hledat zařízení",
+  "btn_connect": "Připojit",
+  "btn_disconnect": "Odpojit",
+  "msg_no_devices": "V okolí nebyla nalezena žádná zařízení",
+  "msg_connected": "Připojeno k {deviceName}",
+  "err_bluetooth_off": "Povolte Bluetooth pro pokračování",
+  "err_permission_denied": "Oprávnění Bluetooth odepřeno"
+}

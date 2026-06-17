@@ -47,15 +47,28 @@ class _CameraScreenState extends State<CameraScreen>
   }
 
   void _listenVolumeKeys() {
-    _volumeSub = _kVolumeChannel.receiveBroadcastStream().listen((keyCode) {
-      _showToast('KEY: $keyCode');  // diagnóstico — muestra el keycode en pantalla
-      _shoot();
-    });
+    _volumeSub?.cancel();
+    _volumeSub = _kVolumeChannel.receiveBroadcastStream().listen(
+      (keyCode) {
+        _showToast('KEY: $keyCode');
+        _shoot();
+      },
+      onError: (_) => _listenVolumeKeys(), // reconecta si hay error
+      onDone: () => _listenVolumeKeys(),   // reconecta si el stream se cierra
+      cancelOnError: false,
+    );
   }
 
+  bool _shooting = false;
+
   Future<void> _shoot() async {
+    if (_shooting) return;           // evita disparos solapados
+    _shooting = true;
     final cam = context.read<CameraProvider>();
-    if (!cam.isReady) return;
+    if (!cam.isReady) {
+      _shooting = false;
+      return;
+    }
 
     // Flash visual de disparo
     setState(() => _showFlash = true);
@@ -64,6 +77,7 @@ class _CameraScreenState extends State<CameraScreen>
     });
 
     await cam.takePhoto();
+    _shooting = false;
 
     if (mounted) {
       _showToast(AppLocalizations.of(context).status_detected);

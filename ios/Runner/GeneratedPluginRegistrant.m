@@ -6,16 +6,10 @@
 
 #import "GeneratedPluginRegistrant.h"
 
-#if __has_include(<camera_avfoundation/CameraPlugin.h>)
-#import <camera_avfoundation/CameraPlugin.h>
+#if __has_include(<camerawesome/CamerawesomePlugin.h>)
+#import <camerawesome/CamerawesomePlugin.h>
 #else
-@import camera_avfoundation;
-#endif
-
-#if __has_include(<gal/GalPlugin.h>)
-#import <gal/GalPlugin.h>
-#else
-@import gal;
+@import camerawesome;
 #endif
 
 #if __has_include(<permission_handler_apple/PermissionHandlerPlugin.h>)
@@ -27,8 +21,7 @@
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
-  [CameraPlugin registerWithRegistrar:[registry registrarForPlugin:@"CameraPlugin"]];
-  [GalPlugin registerWithRegistrar:[registry registrarForPlugin:@"GalPlugin"]];
+  [CamerawesomePlugin registerWithRegistrar:[registry registrarForPlugin:@"CamerawesomePlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
 }
 

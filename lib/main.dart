@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'l10n/app_localizations.dart';
-import 'providers/camera_provider.dart';
 import 'providers/locale_provider.dart';
 import 'screens/camera_screen.dart';
 
@@ -18,7 +17,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
-        ChangeNotifierProvider(create: (_) => CameraProvider()),
       ],
       child: const AirSnapApp(),
     ),

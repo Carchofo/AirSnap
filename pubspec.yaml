@@ -18,11 +18,8 @@ dependencies:
   # Estado reactivo
   provider: ^6.1.2
 
-  # Cámara
-  camera: ^0.11.0+2
-
-  # Guardar fotos en galería
-  gal: ^2.3.0
+  # Cámara con filtros en tiempo real
+  camerawesome: ^2.5.0
 
   # Permisos
   permission_handler: ^11.3.1

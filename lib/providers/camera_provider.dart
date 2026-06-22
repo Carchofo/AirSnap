@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:gal/gal.dart';
 
-enum CameraStatus { initializing, ready, capturing, error }
+enum CameraStatus { initializing, ready, capturing, error, permissionDenied }
 
 class CameraProvider extends ChangeNotifier {
   CameraController? _controller;
@@ -22,12 +22,15 @@ class CameraProvider extends ChangeNotifier {
   bool get flashOn => _flashOn;
   String? get lastPhotoPath => _lastPhotoPath;
   bool get hasMultipleCameras => _cameras.length > 1;
+  bool get permissionDenied => _status == CameraStatus.permissionDenied;
 
   Future<void> initialize() async {
+    _status = CameraStatus.initializing;
+    notifyListeners();
     try {
       _cameras = await availableCameras();
       if (_cameras.isEmpty) {
-        _setError('No cameras available');
+        _setError('No cameras found');
         return;
       }
       await _initController(_cameraIndex);
@@ -37,11 +40,15 @@ class CameraProvider extends ChangeNotifier {
   }
 
   Future<void> _initController(int index) async {
-    _status = CameraStatus.initializing;
-    notifyListeners();
+    final old = _controller;
+    _controller = null;
+    notifyListeners(); // signal widget to stop using old controller
 
-    await _controller?.dispose();
-    _controller = CameraController(
+    try {
+      await old?.dispose();
+    } catch (_) {}
+
+    final ctrl = CameraController(
       _cameras[index],
       ResolutionPreset.high,
       enableAudio: false,
@@ -49,31 +56,38 @@ class CameraProvider extends ChangeNotifier {
     );
 
     try {
-      await _controller!.initialize();
-      await _controller!.setFlashMode(
-        _flashOn ? FlashMode.torch : FlashMode.off,
-      );
+      await ctrl.initialize();
+      await ctrl.setFlashMode(_flashOn ? FlashMode.torch : FlashMode.off);
+      _controller = ctrl;
       _status = CameraStatus.ready;
     } catch (e) {
-      _setError(e.toString());
+      await ctrl.dispose();
+      if (e is CameraException && e.code == 'CameraAccessDenied') {
+        _status = CameraStatus.permissionDenied;
+      } else {
+        _setError(e.toString());
+      }
     }
     notifyListeners();
   }
 
   Future<void> takePhoto() async {
-    if (_controller == null || !isReady) return;
+    final ctrl = _controller;
+    if (ctrl == null || !ctrl.value.isInitialized || _status != CameraStatus.ready) return;
+
     _status = CameraStatus.capturing;
     notifyListeners();
 
     try {
-      final XFile file = await _controller!.takePicture();
+      final XFile file = await ctrl.takePicture();
       _lastPhotoPath = file.path;
-      // Guarda en la galería del dispositivo
       await Gal.putImage(file.path);
-      _status = CameraStatus.ready;
     } catch (e) {
       _setError(e.toString());
+      return;
     }
+
+    _status = CameraStatus.ready;
     notifyListeners();
   }
 
@@ -85,9 +99,14 @@ class CameraProvider extends ChangeNotifier {
 
   Future<void> toggleFlash() async {
     _flashOn = !_flashOn;
-    await _controller?.setFlashMode(
-      _flashOn ? FlashMode.torch : FlashMode.off,
-    );
+    try {
+      await _controller?.setFlashMode(_flashOn ? FlashMode.torch : FlashMode.off);
+    } catch (_) {}
+    notifyListeners();
+  }
+
+  void notifyPermissionDenied() {
+    _status = CameraStatus.permissionDenied;
     notifyListeners();
   }
 

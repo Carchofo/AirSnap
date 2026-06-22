@@ -2,33 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.airsnap.airsnap">
 
-    <!-- ── Bluetooth permissions ─────────────────────────────────────── -->
-    <!-- Android 12+ (API 31+) -->
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
-        android:usesPermissionFlags="neverForLocation" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-
-    <!-- Android 11 and below -->
-    <uses-permission android:name="android.permission.BLUETOOTH"
-        android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
-        android:maxSdkVersion="30" />
-
-    <!-- BLE feature declaration -->
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
-
-    <!-- ── Camera permissions ─────────────────────────────────────────── -->
+    <!-- ── Camera + storage ───────────────────────────────────────────── -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Android ≤ 12 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+    <!-- Android 13+ -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- Camera feature — not required so app installs on devices without rear cam -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+    <!-- Wake lock — keep screen on while viewfinder is active -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:label="AirSnap"
@@ -59,11 +48,4 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-
-    <!-- Required for volume key interception on some Android versions -->
-    <queries>
-        <intent>
-            <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
-        </intent>
-    </queries>
 </manifest>

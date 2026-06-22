@@ -1,10 +1,6 @@
 package com.airsnap.airsnap
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
+import android.os.PowerManager
 import android.view.KeyEvent
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -13,28 +9,10 @@ import io.flutter.plugin.common.EventChannel
 class MainActivity : FlutterActivity() {
 
     private var eventSink: EventChannel.EventSink? = null
-
-    // Receptor para el botón de auriculares con cable (HEADSETHOOK)
-    // que Android envia como broadcast, no como KeyEvent directo.
-    private val headsetReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == Intent.ACTION_MEDIA_BUTTON) {
-                val event = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT, KeyEvent::class.java)
-                } else {
-                    @Suppress("DEPRECATION")
-                    intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT)
-                }
-                if (event?.action == KeyEvent.ACTION_DOWN) {
-                    eventSink?.success(event.keyCode)
-                }
-            }
-        }
-    }
+    private var wakeLock: PowerManager.WakeLock? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-
         EventChannel(
             flutterEngine.dartExecutor.binaryMessenger,
             "com.airsnap.airsnap/volume"
@@ -48,25 +26,26 @@ class MainActivity : FlutterActivity() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        val filter = IntentFilter(Intent.ACTION_MEDIA_BUTTON)
-        filter.priority = IntentFilter.SYSTEM_HIGH_PRIORITY
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(headsetReceiver, filter, Context.RECEIVER_EXPORTED)
-        } else {
-            registerReceiver(headsetReceiver, filter)
-        }
+    override fun onResume() {
+        super.onResume()
+        // Keep screen on while camera is active so BT remote always reaches onKeyDown.
+        val pm = getSystemService(POWER_SERVICE) as PowerManager
+        @Suppress("DEPRECATION")
+        wakeLock = pm.newWakeLock(
+            PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+            "airsnap:camera"
+        )
+        wakeLock?.acquire(10 * 60 * 1000L) // max 10 min
     }
 
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(headsetReceiver)
+    override fun onPause() {
+        super.onPause()
+        wakeLock?.release()
+        wakeLock = null
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        // Enviamos CUALQUIER tecla a Flutter para diagnóstico y disparo.
-        // Las teclas del sistema que no queremos consumir las dejamos pasar.
+        // Block system keys that must not be consumed.
         val systemKeys = setOf(
             KeyEvent.KEYCODE_HOME,
             KeyEvent.KEYCODE_BACK,

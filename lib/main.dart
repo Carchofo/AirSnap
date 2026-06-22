@@ -6,12 +6,10 @@ import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/camera_provider.dart';
 import 'providers/locale_provider.dart';
-import 'providers/shutter_provider.dart';
 import 'screens/camera_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Forzar orientación portrait para la cámara
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -20,7 +18,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
-        ChangeNotifierProvider(create: (_) => ShutterProvider()),
         ChangeNotifierProvider(create: (_) => CameraProvider()),
       ],
       child: const AirSnapApp(),
@@ -67,25 +64,21 @@ class AirSnapApp extends StatelessWidget {
         return const Locale('en');
       },
       themeMode: ThemeMode.dark,
-      darkTheme: _buildTheme(),
-      home: const CameraScreen(),
-    );
-  }
-
-  ThemeData _buildTheme() {
-    return ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.dark,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF0A84FF),
+      darkTheme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0A84FF),
+          brightness: Brightness.dark,
+        ),
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
       ),
-      scaffoldBackgroundColor: Colors.black,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
+      home: const CameraScreen(),
     );
   }
 }

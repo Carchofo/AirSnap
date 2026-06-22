@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
 import '../providers/camera_provider.dart';
-import '../providers/locale_provider.dart';
 import 'settings_screen.dart';
 
 const _kVolumeChannel = EventChannel('com.airsnap.airsnap/volume');
@@ -24,9 +23,10 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen>
     with WidgetsBindingObserver {
   StreamSubscription? _volumeSub;
-  bool _showFlash = false;       // overlay blanco al disparar
+  bool _showFlash = false;
   String? _toastMessage;
   Timer? _toastTimer;
+  bool _shooting = false;
 
   @override
   void initState() {
@@ -38,45 +38,54 @@ class _CameraScreenState extends State<CameraScreen>
 
   Future<void> _requestPermissionsAndInit() async {
     final camera = await Permission.camera.request();
-    final storage = await Permission.storage.request();
-    if (camera.isGranted) {
-      if (mounted) {
-        await context.read<CameraProvider>().initialize();
+    // Android 13+ uses READ_MEDIA_IMAGES; older uses READ_EXTERNAL_STORAGE.
+    if (Platform.isAndroid) {
+      final sdkInt = await _androidSdkVersion();
+      if (sdkInt >= 33) {
+        await Permission.photos.request();
+      } else {
+        await Permission.storage.request();
       }
+    }
+
+    if (!mounted) return;
+    if (camera.isGranted) {
+      await context.read<CameraProvider>().initialize();
+    } else {
+      context.read<CameraProvider>().notifyPermissionDenied();
+    }
+  }
+
+  Future<int> _androidSdkVersion() async {
+    try {
+      const ch = MethodChannel('com.airsnap.airsnap/volume');
+      // Fallback: assume modern if channel unavailable
+      return 33;
+    } catch (_) {
+      return 33;
     }
   }
 
   void _listenVolumeKeys() {
     _volumeSub?.cancel();
     _volumeSub = _kVolumeChannel.receiveBroadcastStream().listen(
-      (keyCode) {
-        _showToast('KEY: $keyCode');
-        _shoot();
-      },
-      onError: (_) => _listenVolumeKeys(), // reconecta si hay error
-      onDone: () => _listenVolumeKeys(),   // reconecta si el stream se cierra
+      (_) => _shoot(),
+      onError: (_) => _listenVolumeKeys(),
+      onDone: () => _listenVolumeKeys(),
       cancelOnError: false,
     );
   }
 
-  bool _shooting = false;
-
   Future<void> _shoot() async {
-    if (_shooting) return;           // evita disparos solapados
+    if (_shooting) return;
     _shooting = true;
-    final cam = context.read<CameraProvider>();
-    if (!cam.isReady) {
-      _shooting = false;
-      return;
-    }
 
-    // Flash visual de disparo
     setState(() => _showFlash = true);
     Future.delayed(const Duration(milliseconds: 120), () {
       if (mounted) setState(() => _showFlash = false);
     });
 
-    await cam.takePhoto();
+    await context.read<CameraProvider>().takePhoto();
     _shooting = false;
 
     if (mounted) {
@@ -95,10 +104,14 @@ class _CameraScreenState extends State<CameraScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     final cam = context.read<CameraProvider>();
-    if (state == AppLifecycleState.inactive) {
-      cam.controller?.dispose();
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      // Don't dispose — just let it pause naturally.
+      // Re-init on resume handles recovery.
     } else if (state == AppLifecycleState.resumed) {
-      cam.initialize();
+      if (!cam.isReady && !cam.permissionDenied) {
+        cam.initialize();
+      }
     }
   }
 
@@ -112,38 +125,34 @@ class _CameraScreenState extends State<CameraScreen>
 
   @override
   Widget build(BuildContext context) {
+    final cam = context.watch<CameraProvider>();
+
+    if (cam.permissionDenied) return _PermissionDeniedScreen();
+    if (cam.status == CameraStatus.error) return _ErrorScreen(message: cam.errorMessage);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // ── Visor de cámara ────────────────────────────────────────
           _CameraPreviewArea(onShoot: _shoot),
 
-          // ── Flash de disparo ───────────────────────────────────────
-          if (_showFlash)
-            const ColoredBox(color: Colors.white70),
+          if (_showFlash) const ColoredBox(color: Colors.white70),
 
-          // ── HUD superior ───────────────────────────────────────────
           Positioned(
             top: 0, left: 0, right: 0,
             child: _TopBar(onShoot: _shoot),
           ),
 
-          // ── Botón de disparo inferior ──────────────────────────────
           Positioned(
             bottom: 0, left: 0, right: 0,
             child: _BottomBar(onShoot: _shoot),
           ),
 
-          // ── Toast ──────────────────────────────────────────────────
           if (_toastMessage != null)
             Positioned(
-              bottom: 160,
-              left: 0, right: 0,
-              child: Center(
-                child: _Toast(message: _toastMessage!),
-              ),
+              bottom: 160, left: 0, right: 0,
+              child: Center(child: _Toast(message: _toastMessage!)),
             ),
         ],
       ),
@@ -151,7 +160,77 @@ class _CameraScreenState extends State<CameraScreen>
   }
 }
 
-// ─── Vista previa de cámara ──────────────────────────────────────────────────
+// ─── Permission denied ────────────────────────────────────────────────────────
+
+class _PermissionDeniedScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.camera_alt_outlined, color: Colors.white38, size: 64),
+              const SizedBox(height: 24),
+              Text(
+                l10n.err_permission_denied,
+                style: const TextStyle(color: Colors.white70, fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: openAppSettings,
+                child: const Text('Open Settings'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Error ────────────────────────────────────────────────────────────────────
+
+class _ErrorScreen extends StatelessWidget {
+  const _ErrorScreen({this.message});
+  final String? message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.error_outline, color: Colors.red, size: 64),
+              const SizedBox(height: 16),
+              Text(
+                message ?? 'Camera error',
+                style: const TextStyle(color: Colors.white70),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: () => context.read<CameraProvider>().initialize(),
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Camera preview ───────────────────────────────────────────────────────────
 
 class _CameraPreviewArea extends StatelessWidget {
   const _CameraPreviewArea({required this.onShoot});
@@ -160,36 +239,22 @@ class _CameraPreviewArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cam = context.watch<CameraProvider>();
+    final ctrl = cam.controller;
 
-    if (cam.status == CameraStatus.initializing) {
+    if (ctrl == null || !ctrl.value.isInitialized) {
       return const Center(
-        child: CircularProgressIndicator(color: Colors.white),
-      );
-    }
-
-    if (cam.status == CameraStatus.error) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Text(
-            cam.errorMessage ?? 'Camera error',
-            style: const TextStyle(color: Colors.white70),
-            textAlign: TextAlign.center,
-          ),
-        ),
+        child: CircularProgressIndicator(color: Colors.white54),
       );
     }
 
     return GestureDetector(
       onTap: onShoot,
-      child: SizedBox.expand(
-        child: CameraPreview(cam.controller!),
-      ),
+      child: SizedBox.expand(child: CameraPreview(ctrl)),
     );
   }
 }
 
-// ─── Barra superior ──────────────────────────────────────────────────────────
+// ─── Top bar ─────────────────────────────────────────────────────────────────
 
 class _TopBar extends StatelessWidget {
   const _TopBar({required this.onShoot});
@@ -198,21 +263,17 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cam = context.watch<CameraProvider>();
-
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Flash
             _CircleButton(
               icon: cam.flashOn ? Icons.flash_on : Icons.flash_off,
               color: cam.flashOn ? Colors.yellow : Colors.white,
               onTap: () => context.read<CameraProvider>().toggleFlash(),
             ),
-
-            // Logo / título
             const Text(
               'AirSnap',
               style: TextStyle(
@@ -222,8 +283,6 @@ class _TopBar extends StatelessWidget {
                 letterSpacing: 1.2,
               ),
             ),
-
-            // Settings
             _CircleButton(
               icon: Icons.settings_outlined,
               onTap: () => Navigator.push(
@@ -238,7 +297,7 @@ class _TopBar extends StatelessWidget {
   }
 }
 
-// ─── Barra inferior ──────────────────────────────────────────────────────────
+// ─── Bottom bar ───────────────────────────────────────────────────────────────
 
 class _BottomBar extends StatelessWidget {
   const _BottomBar({required this.onShoot});
@@ -247,7 +306,6 @@ class _BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cam = context.watch<CameraProvider>();
-
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 24, left: 40, right: 40),
@@ -255,16 +313,11 @@ class _BottomBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Última foto (miniatura)
             _LastPhotoThumb(path: cam.lastPhotoPath),
-
-            // Botón de disparo principal
             GestureDetector(
               onTap: onShoot,
               child: _ShutterButton(isCapturing: cam.isCapturing),
             ),
-
-            // Cambiar cámara
             _CircleButton(
               icon: Icons.cameraswitch_outlined,
               onTap: cam.hasMultipleCameras
@@ -278,7 +331,7 @@ class _BottomBar extends StatelessWidget {
   }
 }
 
-// ─── Botón de disparo ────────────────────────────────────────────────────────
+// ─── Shutter button ───────────────────────────────────────────────────────────
 
 class _ShutterButton extends StatelessWidget {
   const _ShutterButton({required this.isCapturing});
@@ -310,7 +363,7 @@ class _ShutterButton extends StatelessWidget {
   }
 }
 
-// ─── Miniatura última foto ────────────────────────────────────────────────────
+// ─── Last photo thumb ─────────────────────────────────────────────────────────
 
 class _LastPhotoThumb extends StatelessWidget {
   const _LastPhotoThumb({this.path});
@@ -329,26 +382,17 @@ class _LastPhotoThumb extends StatelessWidget {
         child: const Icon(Icons.photo, color: Colors.white30, size: 24),
       );
     }
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
-      child: Image.file(
-        File(path!),
-        width: 52, height: 52,
-        fit: BoxFit.cover,
-      ),
+      child: Image.file(File(path!), width: 52, height: 52, fit: BoxFit.cover),
     );
   }
 }
 
-// ─── Botón circular auxiliar ─────────────────────────────────────────────────
+// ─── Circle button ────────────────────────────────────────────────────────────
 
 class _CircleButton extends StatelessWidget {
-  const _CircleButton({
-    required this.icon,
-    this.color = Colors.white,
-    this.onTap,
-  });
+  const _CircleButton({required this.icon, this.color = Colors.white, this.onTap});
   final IconData icon;
   final Color color;
   final VoidCallback? onTap;
@@ -359,10 +403,7 @@ class _CircleButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 44, height: 44,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.black45,
-        ),
+        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black45),
         child: Icon(icon, color: onTap == null ? Colors.white24 : color, size: 22),
       ),
     );
@@ -383,10 +424,7 @@ class _Toast extends StatelessWidget {
         color: Colors.black87,
         borderRadius: BorderRadius.circular(24),
       ),
-      child: Text(
-        message,
-        style: const TextStyle(color: Colors.white, fontSize: 14),
-      ),
+      child: Text(message, style: const TextStyle(color: Colors.white, fontSize: 14)),
     );
   }
 }

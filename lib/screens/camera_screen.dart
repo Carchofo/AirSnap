@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
-import '../providers/locale_provider.dart';
 import 'settings_screen.dart';
 
 const _kVolumeChannel = EventChannel('com.airsnap.airsnap/volume');
@@ -181,9 +179,8 @@ class _ShutterButton extends StatelessWidget {
 }
 
 class _CircleButton extends StatelessWidget {
-  const _CircleButton({required this.icon, this.color = Colors.white, this.onTap});
+  const _CircleButton({required this.icon, this.onTap});
   final IconData icon;
-  final Color color;
   final VoidCallback? onTap;
 
   @override
@@ -193,7 +190,7 @@ class _CircleButton extends StatelessWidget {
       child: Container(
         width: 44, height: 44,
         decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black45),
-        child: Icon(icon, color: onTap == null ? Colors.white24 : color, size: 22),
+        child: Icon(icon, color: onTap == null ? Colors.white24 : Colors.white, size: 22),
       ),
     );
   }

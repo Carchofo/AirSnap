@@ -54,10 +54,14 @@ class AirSnapApp extends StatelessWidget {
         if (deviceLocale == null) return const Locale('en');
         for (final s in supportedLocales) {
           if (s.languageCode == deviceLocale.languageCode &&
-              s.countryCode == deviceLocale.countryCode) return s;
+              s.countryCode == deviceLocale.countryCode) {
+            return s;
+          }
         }
         for (final s in supportedLocales) {
-          if (s.languageCode == deviceLocale.languageCode) return s;
+          if (s.languageCode == deviceLocale.languageCode) {
+            return s;
+          }
         }
         return const Locale('en');
       },

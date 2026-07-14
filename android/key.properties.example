@@ -1,0 +1,4 @@
+storePassword=airsnap2024
+keyPassword=airsnap2024
+keyAlias=airsnap
+storeFile=C:/Users/perka/Desktop/exobot-vault/airsnap-release.jks

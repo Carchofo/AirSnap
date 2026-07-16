@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 
 import 'l10n/app_localizations.dart';
 import 'providers/locale_provider.dart';
-import 'screens/camera_screen.dart';
+import 'screens/accessibility_screen.dart';
+import 'screens/pairing_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,7 +77,7 @@ class AirSnapApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const CameraScreen(),
+      home: const AccessibilityScreen(),
     );
   }
 }

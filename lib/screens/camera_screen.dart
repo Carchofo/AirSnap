@@ -12,7 +12,11 @@ import 'settings_screen.dart';
 const _kVolumeChannel = EventChannel('com.airsnap.airsnap/volume');
 
 class CameraScreen extends StatefulWidget {
-  const CameraScreen({super.key});
+  /// Keycode del periférico BT detectado en PairingScreen.
+  /// null = cualquier tecla dispara (modo tap-only o skip).
+  final int? pairedKeyCode;
+
+  const CameraScreen({super.key, this.pairedKeyCode});
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -35,7 +39,11 @@ class _CameraScreenState extends State<CameraScreen> {
   void _listenVolumeKeys() {
     _volumeSub?.cancel();
     _volumeSub = _kVolumeChannel.receiveBroadcastStream().listen(
-      (_) => _shoot(),
+      (keyCode) {
+        // Si hay keycode pareado, solo dispara esa tecla. Si no, cualquiera.
+        final paired = widget.pairedKeyCode;
+        if (paired == null || keyCode == paired) _shoot();
+      },
       onError: (_) => _listenVolumeKeys(),
       onDone: () => _listenVolumeKeys(),
       cancelOnError: false,

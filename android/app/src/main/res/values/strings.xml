@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AirSnap</string>
+    <string name="accessibility_description">AirSnap uses this permission to detect button presses from your Bluetooth headset or smartband, so it can take photos remotely without touching your phone.</string>
+</resources>

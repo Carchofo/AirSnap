@@ -250,6 +250,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bluetooth permission denied'**
   String get err_permission_denied;
+
+  /// Accessibility onboarding title
+  ///
+  /// In en, this message translates to:
+  /// **'One-time setup'**
+  String get access_title;
+
+  /// Accessibility onboarding explanation
+  ///
+  /// In en, this message translates to:
+  /// **'To detect button presses from your Bluetooth headset or smartband, AirSnap needs one permission.'**
+  String get access_body;
+
+  /// Step 1 of accessibility setup
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Enable\" below'**
+  String get access_step1;
+
+  /// Step 2 of accessibility setup
+  ///
+  /// In en, this message translates to:
+  /// **'Find \"AirSnap Shutter\" in the list'**
+  String get access_step2;
+
+  /// Step 3 of accessibility setup
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle it ON — done forever'**
+  String get access_step3;
+
+  /// Button to open accessibility settings
+  ///
+  /// In en, this message translates to:
+  /// **'Enable in Settings'**
+  String get access_btn;
+
+  /// Skip peripheral setup button
+  ///
+  /// In en, this message translates to:
+  /// **'Skip — use tap only'**
+  String get btn_skip;
 }
 
 class _AppLocalizationsDelegate

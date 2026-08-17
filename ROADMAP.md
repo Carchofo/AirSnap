@@ -34,6 +34,23 @@ settings tras un solo icono, cero menús anidados.
 - [ ] **Modo pantalla apagada** (disparar con pantalla bloqueada, foreground service).
 - [ ] **Quick Settings tile / widget**.
 
+## v3.0 — Bandas y relojes (investigado ago 2026, ver detalle abajo)
+- [ ] **Comprobar gratis si ya funciona**: si el usuario activa "cámara remota" en la app
+      oficial de su band (Mi Fitness/Zepp/Huawei Health), varios modelos emulan tecla de
+      Volumen — el AccessibilityService actual podría ya captarlo sin tocar código. Probar
+      primero con un Mi Band/Amazfit real antes de invertir en nada más.
+- [ ] **App nativa Wear OS** (Kotlin, módulo aparte — no hay bridge Flutter maduro): escucha
+      un botón/tile en el reloj y reenvía el evento al móvil vía Data Layer API
+      (`WearableListenerService` + `MessageClient`). Ruta oficial con precedentes reales
+      funcionando. Cubre Wear OS genérico y Galaxy Watch4+ (Samsung discontinuó Tizen).
+      Esfuerzo medio, sin experiencia previa esperar días de curva de aprendizaje, no semanas.
+- [ ] **(Opcional, solo si falla el punto 1) Soporte BLE directo Mi Band/Amazfit vía
+      Gadgetbystem/Freeyourgadget** — protocolo bien documentado para Band 4-8 y varios
+      Amazfit, pero cifrado/autenticado en modelos nuevos → mantenimiento continuo, se rompe
+      con firmwares. Solo bandas populares, soporte "best effort".
+- [ ] ~~Fitbit~~ y ~~Galaxy Watch Tizen legado~~ — **descartado**: SDK de terceros retirado
+      (Fitbit) o plataforma discontinuada (Tizen), sin cooperación del fabricante no hay vía.
+
 ## Reglas aprendidas del mercado
 1. Gratis sin trampas todo lo básico (disparo, timer, burst).
 2. La UI nunca crece: cada feature nueva se esconde hasta que se necesita.

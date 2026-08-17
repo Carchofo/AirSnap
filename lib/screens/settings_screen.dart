@@ -47,7 +47,9 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final localeProvider = context.watch<LocaleProvider>();
-    final currentTag = localeProvider.locale.toLanguageTag().replaceAll('-', '_');
+    final currentTag = (localeProvider.locale ?? Localizations.localeOf(context))
+        .toLanguageTag()
+        .replaceAll('-', '_');
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.lbl_settings)),

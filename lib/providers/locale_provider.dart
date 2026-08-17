@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Manages the active [Locale] for the whole app.
-/// Exposes [setLocale] so any screen can switch languages at runtime.
 class LocaleProvider extends ChangeNotifier {
-  Locale _locale = const Locale('en');
+  Locale? _locale; // null = usa el idioma del sistema
 
-  Locale get locale => _locale;
+  Locale? get locale => _locale;
 
   void setLocale(Locale locale) {
     if (_locale == locale) return;
@@ -14,7 +12,7 @@ class LocaleProvider extends ChangeNotifier {
   }
 
   void clearLocale() {
-    _locale = const Locale('en');
+    _locale = null;
     notifyListeners();
   }
 }

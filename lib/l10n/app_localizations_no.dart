@@ -57,4 +57,26 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get err_permission_denied => 'Bluetooth-tillatelse avslått';
+
+  @override
+  String get access_title => 'One-time setup';
+
+  @override
+  String get access_body =>
+      'To detect button presses from your Bluetooth headset or smartband, AirSnap needs one permission.';
+
+  @override
+  String get access_step1 => 'Tap \"Enable\" below';
+
+  @override
+  String get access_step2 => 'Find \"AirSnap Shutter\" in the list';
+
+  @override
+  String get access_step3 => 'Toggle it ON — done forever';
+
+  @override
+  String get access_btn => 'Enable in Settings';
+
+  @override
+  String get btn_skip => 'Skip — use tap only';
 }

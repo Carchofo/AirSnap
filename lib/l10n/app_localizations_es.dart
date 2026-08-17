@@ -57,4 +57,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get err_permission_denied => 'Permiso de Bluetooth denegado';
+
+  @override
+  String get access_title => 'Configuración inicial';
+
+  @override
+  String get access_body =>
+      'Para detectar los botones de tus auriculares o smartband Bluetooth, AirSnap necesita un permiso.';
+
+  @override
+  String get access_step1 => 'Pulsa \"Activar\" abajo';
+
+  @override
+  String get access_step2 => 'Busca \"AirSnap Shutter\" en la lista';
+
+  @override
+  String get access_step3 => 'Actívalo — listo para siempre';
+
+  @override
+  String get access_btn => 'Activar en Ajustes';
+
+  @override
+  String get btn_skip => 'Saltar — usar solo toque';
 }

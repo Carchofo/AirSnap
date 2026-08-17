@@ -12,10 +12,10 @@ settings tras un solo icono, cero menús anidados.
 ## v1.1 — Robustez del disparo (mata las reviews de 1★)
 - [ ] **Wizard de mapeo de keycode**: "pulsa el botón de tu mando ahora" → detecta y mapea.
       Con override manual. Es la causa nº1 de 1★ en toda la categoría (zoom vs disparo).
-- [ ] **Ampliar keycodes escuchados a auriculares "media button"**: hoy solo se escucha
-      `KEYCODE_VOLUME_UP/DOWN` (HID). Añadir `KEYCODE_HEADSETHOOK`, `KEYCODE_MEDIA_PLAY_PAUSE`,
-      `KEYCODE_MEDIA_NEXT/PREVIOUS` (AVRCP) al AccessibilityService. Coste bajo, cubre la
-      inmensa mayoría de auriculares BT del mercado (los que usan tap/pinch en vez de botón físico).
+- [x] **Ampliar keycodes escuchados a auriculares "media button"** — YA IMPLEMENTADO por el
+      Mac: `MediaButtonReceiver.kt` intercepta `ACTION_MEDIA_BUTTON` (AVRCP: play/pause/next/prev)
+      además de `KEYCODE_VOLUME_UP/DOWN` (HID). Cubre la inmensa mayoría de auriculares BT.
+      Pendiente: probar en dispositivo real (Realme 14 Pro+).
 - [ ] **Sonido/vibración de confirmación** de disparo (el usuario está lejos del móvil).
 - [ ] **Perfiles por dispositivo BT**: recuerda el mapeo de cada mando/auricular.
 
